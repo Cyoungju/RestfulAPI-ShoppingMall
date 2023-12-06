@@ -72,7 +72,11 @@ public class UserController {
             throw new Exception401("인증되지 않음.");
         }
 
+        System.out.println(jwt);
+
         return ResponseEntity.ok().header(JwtTokenProvider.HEADER, jwt)
                 .body(ApiUtils.success(null));
+
+        //jwt이 HEADER로 들어가 있어야함
     }
 }

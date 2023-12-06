@@ -20,9 +20,9 @@ public class OptionService {
     private final ProductRepository productRepository;
 
     @Transactional
-    public Option save(OptionResponse.FindByProductIdDTO optionDTO) {
+    public Option save(OptionRequest.saveDTO optionDTO) {
 
-        Optional<Product> optionalOption = productRepository.findById(optionDTO.getProductId());
+        Optional<Product> optionalOption = productRepository.findById(optionDTO.getId());
 
         if (optionalOption.isPresent()) {
             Product product = optionalOption.get();
@@ -78,6 +78,24 @@ public class OptionService {
     }
 
 
+    @Transactional
+    public Option update(OptionRequest.updateDTO updateDTO) {
+        // productRepository 사용해 productId에 해당하는 상품 찾기
+        Product product = productRepository.findById(updateDTO.getProductId())
+                .orElseThrow(() ->  new IllegalArgumentException("해당 ID에 대한 상품을 찾을 수 없습니다. Product ID: " + updateDTO.getProductId()));
 
+        // optionRepository 사용하여 해당 상품에 속한 옵션 중 optionId와 일치하는 옵션 찾기
+        Optional<Option> optionalOption = optionRepository.findByIdAndProduct(updateDTO.getId(), product);
+        // 찾은 옵션이 있다면 수정 작업 진행
+        if (optionalOption.isPresent()) {
+            Option option = optionalOption.get();
+            option.updateFromDTO(updateDTO);
 
+            return optionRepository.save(option);
+
+        } else {
+            // 찾은 상품 없는 경우에 대한 처리
+            throw new IllegalArgumentException("해당 상품을 찾을 수 없습니다: " + updateDTO.getProductId());
+        }
+    }
 }

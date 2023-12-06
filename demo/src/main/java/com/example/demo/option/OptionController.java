@@ -15,8 +15,8 @@ public class OptionController {
 
     private final OptionService optionService;
 
-    @PostMapping("/options/save")
-    public ResponseEntity<?> save(@RequestBody OptionResponse.FindByProductIdDTO optionDTO){
+    @PostMapping("options/save")
+    public ResponseEntity<?> save(@RequestBody OptionRequest.saveDTO optionDTO){
         Option saveProduct = optionService.save(optionDTO);
 
         ApiUtils.ApiResult<?> apiResult = ApiUtils.success(saveProduct);
@@ -53,6 +53,14 @@ public class OptionController {
 
     // 상품 안에 옵션이 있으니까
     // producId로 검색해서 상품 정보를 불러올수 있음
+
+    @PutMapping("/options/update")
+    public ResponseEntity<?> update(@RequestBody OptionRequest.updateDTO optionDTO){
+        Option updateProduct = optionService.update(optionDTO);
+
+        ApiUtils.ApiResult<?> apiResult = ApiUtils.success(updateProduct);
+        return ResponseEntity.ok(apiResult);
+    }
 
 
     @DeleteMapping("/delete/{id}/options/{optionId}")

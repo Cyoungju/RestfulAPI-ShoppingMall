@@ -1,7 +1,6 @@
 package com.example.demo.option;
 
 import com.example.demo.product.Product;
-import com.example.demo.product.ProductResponse;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -44,15 +43,9 @@ public class Option {
         this.quantity = quantity;
     }
 
-//    public Option toupdate(Product product){
-//        Option option = new Option();
-//        this.product = product;
-//        return option;
-//
-//    }
 
     //DTO -> Entity
-    public void updateFromDTO(OptionResponse.FindByProductIdDTO optionDTO){
+    public void updateFromDTO(OptionRequest.updateDTO optionDTO){
         this.optionName = optionDTO.getOptionName();
         this.price = optionDTO.getPrice();
         this.quantity = optionDTO.getQuantity();

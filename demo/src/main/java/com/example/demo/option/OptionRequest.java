@@ -4,47 +4,31 @@ import com.example.demo.product.Product;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 @NoArgsConstructor
-public class OptionResponse {
-    private Long id;
-
-    private Long productId;
-
-    private Product product;
-
-    private String optionName;
-
-    private Long price;
-
-    private Long quantity;
+public class OptionRequest {
 
     @NoArgsConstructor
     @Data
-    public static class FindByProductIdDTO{
-        private Long id;
+    public static class updateDTO {
 
+        private Long id;
+        private String optionName;
+        private  Long price;
+        private Long Quantity;
         private Long productId;
 
-        private String optionName;
-
-        private Long price;
-
-        private Long quantity;
-
-        public FindByProductIdDTO(Option option) {
+        public updateDTO(Option option) {
             this.id = option.getId();
-            this.productId = option.getProduct().getId();
             this.optionName = option.getOptionName();
             this.price = option.getPrice();
-            this.quantity = option.getQuantity();
+            this.Quantity = option.getQuantity();
+            this.productId = option.getProduct().getId();
         }
     }
 
-
     @NoArgsConstructor
     @Data
-    public static class FindAllDTO{
+    public static class saveDTO {
         private Long id;
 
         private Long productId;
@@ -55,12 +39,22 @@ public class OptionResponse {
 
         private Long quantity;
 
-        public FindAllDTO(Option option) {
+        public saveDTO(Option option) {
             this.id = option.getId();
             this.productId = option.getProduct().getId();
             this.optionName = option.getOptionName();
             this.price = option.getPrice();
             this.quantity = option.getQuantity();
         }
+
+        public Option toEntity(Product product) {
+            return Option.builder()
+                    .optionName(optionName)
+                    .price(price)
+                    .quantity(quantity)
+                    .product(product)
+                    .build();
+        }
+
     }
 }

@@ -27,7 +27,7 @@ public class Product {
     @Column(length = 100)
     private String image;
 
-    // ** 가격
+    // ** 가격 - 옵션의 총합
     private int price;
 
     @Builder
