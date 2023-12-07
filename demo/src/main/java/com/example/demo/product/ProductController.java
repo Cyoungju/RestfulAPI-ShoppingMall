@@ -17,7 +17,7 @@ public class ProductController {
     // RestController - 에러코드도 같이 적어줘야함? - 에러코드 필요함
 
     @PostMapping("/save")
-    public ResponseEntity<?> save(@RequestBody Product product){
+    public ResponseEntity<?> save(@RequestBody ProductResponse.FindAllDTO product){
         Product save = productService.save(product);
 
         ApiUtils.ApiResult<?> apiResult = ApiUtils.success(save);

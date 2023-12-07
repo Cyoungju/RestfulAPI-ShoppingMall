@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<link rel="stylesheet" th:href="@{/css/member.css}">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+<body>
+<div class="memberWrap">
+    <div class="inner">
+        <h1>Login</h1>
+        <form id="loginForm">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required><br><br>
+            <br>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+            <br>
+            <input type="submit" value="login" onclick="login()">
+        </form>
+    </div>
+</div>
+
+
+<script>
+    function login() {
+        var email = $("#email").val();
+        var password = $("#password").val();
+
+        if (email === "" || password === "") {
+            alert("이메일과 비밀번호를 입력해주세요.");
+            return; // 필수값이 입력되지 않았을 때 함수 실행 종료
+        }
+
+        var data = {
+            email: email,
+            password: password
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "/login",
+            contentType: "application/json",
+            data: JSON.stringify(data),
+            success: function(response, status, xhr) {
+                var jwtToken = xhr.getResponseHeader('Authorization');
+                if (jwtToken) {
+                    localStorage.setItem('jwtToken', jwtToken);
+                    window.location.href = "/";  // 로그인 성공 시 메인 페이지로 리다이렉트
+                    console.log("로그인 성공");
+                } else if (response === "아이디 또는 비밀번호가 틀렸습니다.") {
+                    console.log(response);
+                    alert("아이디 또는 비밀번호가 틀렸습니다."); // 비밀번호가 틀렸을 때 alert 창 표시
+                } else {
+                    console.log(response);
+                    alert("아이디 또는 비밀번호가 틀렸습니다."); // 아이디 또는 비밀번호가 틀렸을 때 alert 창 표시
+                }
+            },
+            error: function(error) {
+                console.error(error);
+                alert("로그인에 실패했습니다. 다시 시도해주세요."); // 오류 발생 시 alert 창 표시
+            },
+            beforeSend: function() {
+                // 로그인 요청 전에 아이디와 비밀번호 필드를 초기화
+                $("#email").val("");
+                $("#password").val("");
+            }
+        });
+    }
+
+</script>
+
+
+</body>
+</html>

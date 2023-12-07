@@ -11,6 +11,17 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @Entity
+@Table(name = "cart_tb",
+        indexes = {
+            @Index(name = "cart_user_id_idx", columnList = "user_id"),
+            @Index(name = "cart_option_id_idx", columnList = "option_id"),
+        },
+        // 고유값
+        uniqueConstraints = {
+            @UniqueConstraint(name = "uk_cart_option_user", columnNames = {"user_id", "option_id"})
+        }
+)
+// 최적화
 public class Cart {
 
     @Id

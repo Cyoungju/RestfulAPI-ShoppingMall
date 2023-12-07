@@ -20,6 +20,9 @@ public class User {
     @Column(length = 100, nullable = false)
     private String email;
 
+    @Column(length = 45, nullable = false)
+    private String username;
+
     @Column(length = 100, nullable = false)
     private String password;
 
@@ -27,10 +30,11 @@ public class User {
     private List<String> roles = new ArrayList<>();
 
     @Builder
-    public User(Long id, String email, String password, List<String> roles) {
+    public User(Long id, String email, String password, String username, List<String> roles) {
         this.id = id;
         this.email = email;
         this.password = password;
+        this.username = username;
         this.roles = roles;
     }
 

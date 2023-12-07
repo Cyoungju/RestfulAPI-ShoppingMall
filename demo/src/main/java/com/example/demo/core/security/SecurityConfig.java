@@ -60,6 +60,16 @@ public class SecurityConfig {
 
     @Bean // 스프링 빈으로 등록
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
+        System.out.println("\uD83D\uDD25\uD83D\uDD25\uD83D\uDD25\uD83D\uDD25\uD83D\uDD25\uD83D\uDD25\uD83D\uDD25\uD83D\uDD25" +
+                "\uD83D\uDD25\uD83D\uDD25\uD83D\uDD25\uD83D\uDD25\uD83D\uDD25\uD83D\uDD25\uD83D\uDD25\uD83D\uDD25" +
+                "\uD83D\uDD25\uD83D\uDD25\uD83D\uDD25\uD83D\uDD25\uD83D\uDD25\uD83D\uDD25\uD83D\uDD25\uD83D\uDD25" +
+                "\uD83D\uDD25\uD83D\uDD25\uD83D\uDD25\uD83D\uDD25\uD83D\uDD25\uD83D\uDD25\uD83D\uDD25\uD83D\uDD25" +
+                "\uD83D\uDD25\uD83D\uDD25\uD83D\uDD25\uD83D\uDD25\uD83D\uDD25\uD83D\uDD25\uD83D\uDD25\uD83D\uDD25" +
+                "\uD83D\uDD25\uD83D\uDD25\uD83D\uDD25\uD83D\uDD25\uD83D\uDD25\uD83D\uDD25\uD83D\uDD25\uD83D\uDD25" +
+                "\uD83D\uDD25\uD83D\uDD25\uD83D\uDD25\uD83D\uDD25\uD83D\uDD25\uD83D\uDD25\uD83D\uDD25\uD83D\uDD25" +
+                "\uD83D\uDD25\uD83D\uDD25\uD83D\uDD25\uD83D\uDD25\uD83D\uDD25\uD83D\uDD25\uD83D\uDD25\uD83D\uDD25" +
+                "\uD83D\uDD25\uD83D\uDD25\uD83D\uDD25\uD83D\uDD25\uD83D\uDD25\uD83D\uDD25\uD83D\uDD25\uD83D\uDD25");
         // 1. CSRF 해제
         http.csrf().disable(); // postman 접근해야 함!! - CSR 할때!!
 
@@ -95,19 +105,17 @@ public class SecurityConfig {
 
         // 10. 인증, 권한 필터 설정
         http.authorizeRequests(
-                authorize -> authorize.antMatchers("/carts/**", /*"/options/**",*/ "/orders/**").authenticated()
+                authorize -> authorize.antMatchers("/carts/**"/*, "/options/**", "/orders/**"*/).authenticated()
                         .antMatchers("/admin/**")
                         .access("hasRole('ADMIN')")
                         .anyRequest().permitAll() //다른 주소는 모두 허용
         );
+
         // 11. 로그인 관련 설정 (이 부분 추가)
 //        http.formLogin()
 //            .loginPage("/login") // 로그인 페이지 지정
-//            .permitAll();
-//
-//        // 12. 로그아웃 관련 설정 (이 부분 추가)
-//        http.logout()
-//            .permitAll();
+//            .loginProcessingUrl("/login")
+//            .defaultSuccessUrl("/");
 
         return http.build();
     }

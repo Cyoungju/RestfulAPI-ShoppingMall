@@ -1,8 +1,6 @@
 package com.example.demo.user;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
@@ -15,6 +13,7 @@ public class UserRequest {
     @Setter
     public static class JoinDTO {
 
+
         @NotEmpty
         @Pattern(regexp = "^[\\w._%+-]+@[\\w.-]+\\.[a-zA-Z]{2,6}$", message = "이메일 형식으로 작성해주세요")
         private String email;
@@ -25,7 +24,8 @@ public class UserRequest {
         @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[@#$%^&+=!~`<>,./?;:'\"\\[\\]{}\\\\()|_-])\\S*$", message = "영문, 숫자, 특수문자가 포함되어야하고 공백이 포함될 수 없습니다.")
         private String password;
 
-
+        //@NotEmpty
+        private String username;
 
 //        @Builder
 //        public User toEntity(PasswordEncoder passwordEncoder) {
@@ -43,8 +43,17 @@ public class UserRequest {
             return User.builder()
                     .email(email)
                     .password(password)
+                    .username(username)
                     .roles(Collections.singletonList("ROLE_USER"))
                     .build();
         }
+    }
+
+    @NoArgsConstructor
+    @Data
+    public static class LoginDTO {
+        private String email;
+        private String password;
+
     }
 }

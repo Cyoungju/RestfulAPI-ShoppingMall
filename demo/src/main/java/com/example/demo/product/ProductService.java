@@ -55,8 +55,8 @@ public class ProductService {
     }
 
     @Transactional
-    public Product save(Product product) {
-        Product saveProduct = productRepository.save(product);
+    public Product save(ProductResponse.FindAllDTO product) {
+        Product saveProduct = productRepository.save(product.toEntity());
         return saveProduct;
     }
 

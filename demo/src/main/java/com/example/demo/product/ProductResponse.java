@@ -3,8 +3,10 @@ package com.example.demo.product;
 
 
 import com.example.demo.option.Option;
+import com.example.demo.user.User;
 import lombok.*;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,6 +37,16 @@ public class ProductResponse {
             this.description = product.getDescription();
             this.image = product.getImage();
             this.price = product.getPrice();
+        }
+
+        @Builder
+        public Product toEntity() {
+            return Product.builder()
+                    .productName(productName)
+                    .description(description)
+                    .image(image)
+                    .price(price)
+                    .build();
         }
     }
 

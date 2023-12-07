@@ -154,4 +154,11 @@ public class CartResponse { //응답
         }
     }
 
+
+    @Data
+    public static class DeleteDTO {
+        private Long cartId;
+        private Long quantity;
+    }
+
 }

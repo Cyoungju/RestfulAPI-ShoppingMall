@@ -6,10 +6,7 @@ import com.example.demo.core.utils.ApiUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -26,7 +23,7 @@ public class CartController {
     @PostMapping("/carts/add")
     public ResponseEntity<?> addCartList(
             @RequestBody @Valid List<CartRequest.SaveDTO> requestDTO,
-            @AuthenticationPrincipal CustomUserDetails customUserDetails,
+            @AuthenticationPrincipal CustomUserDetails customUserDetails, // 유저 정보확인
             Error error) { // 인증받은 애들만 메소드에 접근할 수 있음
         cartService.addCartList(requestDTO, customUserDetails.getUser());
 
@@ -52,6 +49,17 @@ public class CartController {
         CartResponse.FindAllDTO findAllDTO = cartService.findAll();
 
         ApiUtils.ApiResult<?> apiResult = ApiUtils.success(findAllDTO);
+        return ResponseEntity.ok(apiResult);
+    }
+
+    @DeleteMapping("/carts/delete")
+    public ResponseEntity<?> deleteCartList(
+            @RequestBody @Valid List<CartResponse.DeleteDTO> deleteDTO,
+            @AuthenticationPrincipal CustomUserDetails customUserDetails, // 유저 정보확인
+            Error error) { // 인증받은 애들만 메소드에 접근할 수 있음
+        cartService.deleteCartList(deleteDTO, customUserDetails.getUser());
+
+        ApiUtils.ApiResult<?> apiResult = ApiUtils.success(null);
         return ResponseEntity.ok(apiResult);
     }
 
