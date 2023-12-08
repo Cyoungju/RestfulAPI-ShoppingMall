@@ -2,7 +2,7 @@ package com.example.demo.user;
 
 import com.example.demo.core.error.exception.Exception400;
 import com.example.demo.core.error.exception.Exception401;
-import com.example.demo.core.error.exception.Exception500;
+import com.example.demo.core.error.exception.Exception404;
 import com.example.demo.core.security.CustomUserDetails;
 import com.example.demo.core.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
@@ -65,6 +65,10 @@ public class UserService {
         }
     }
 
+    public Optional<User> getUserByEmail(String email) {
+        // 데이터베이스에서 이메일에 해당하는 사용자 정보 조회
+        return userRepository.findByEmail(email);
+    }
 
     public void checkEmail(String email){
         // 동일한 이메일이 있는지 확인.
@@ -74,4 +78,13 @@ public class UserService {
         }
     }
 
+
+    public Optional<User> findByMemberEmail(String email) {
+        // 멤버 이메일로 멤버를 찾아서 반환하는 로직
+        // 예를 들어, 멤버 레포지토리를 이용해 멤버를 찾는다고 가정하면:
+
+        Optional<User> foundMember = userRepository.findByEmail(email); // 멤버 레포지토리를 통해 이메일로 멤버 찾기
+
+        return foundMember;
+    }
 }
