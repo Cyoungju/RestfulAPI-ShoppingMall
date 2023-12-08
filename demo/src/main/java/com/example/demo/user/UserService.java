@@ -44,9 +44,6 @@ public class UserService {
     @Transactional
     public String login(UserRequest.LoginDTO requestDTO) {
         try {
-            // 디버깅을 위한 로그
-            System.out.println("Trying to authenticate user: " + requestDTO.getEmail());
-
             // UsernamePasswordAuthenticationToken 생성
             UsernamePasswordAuthenticationToken authenticationToken =
                     new UsernamePasswordAuthenticationToken(requestDTO.getEmail(), requestDTO.getPassword());
@@ -54,26 +51,16 @@ public class UserService {
             // 인증을 시도하고, 성공하면 Authentication 객체를 받아옴
             Authentication authentication = authenticationManager.authenticate(authenticationToken);
 
-            // 디버깅을 위한 로그
-            System.out.println("Authentication successful.");
-
             // 인증 완료된 Principal을 가져옴
             CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
 
-            // 디버깅을 위한 로그
-            System.out.println("User details retrieved: " + customUserDetails.getUsername());
-
             // JWT 토큰 생성 및 반환
             String token = JwtTokenProvider.create(customUserDetails.getUser());
-
-            // 디버깅을 위한 로그
-            System.out.println("JWT token created: " + token);
 
             return token;
 
         } catch (Exception e) {
             // 로그인 실패시 401 예외 발생
-            System.out.println("Authentication failed: " + e.getMessage());
             throw new Exception401("인증되지 않음.");
         }
     }

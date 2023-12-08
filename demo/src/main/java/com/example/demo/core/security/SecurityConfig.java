@@ -111,12 +111,6 @@ public class SecurityConfig {
                         .anyRequest().permitAll() //다른 주소는 모두 허용
         );
 
-        // 11. 로그인 관련 설정 (이 부분 추가)
-//        http.formLogin()
-//            .loginPage("/login") // 로그인 페이지 지정
-//            .loginProcessingUrl("/login")
-//            .defaultSuccessUrl("/");
-
         return http.build();
     }
 
