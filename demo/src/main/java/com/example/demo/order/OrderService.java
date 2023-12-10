@@ -24,6 +24,8 @@ public class OrderService {
     private final CartRepository cartRepository;
     private final ItemRepository itemRepository;
 
+
+    @Transactional
     public OrderResponse.FindByDTO save(User user) {
         // ** 장바구니 조회
         List<Cart> cartList = cartRepository.findAllByUserId(user.getId());
@@ -73,6 +75,7 @@ public class OrderService {
 
     }
 
+    @Transactional
     public void clear() {
         try {
             itemRepository.deleteAll();

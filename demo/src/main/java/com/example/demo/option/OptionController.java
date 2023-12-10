@@ -15,7 +15,7 @@ public class OptionController {
 
     private final OptionService optionService;
 
-    @PostMapping("options/save")
+    @PostMapping("/options")
     public ResponseEntity<?> save(@RequestBody OptionRequest.saveDTO optionDTO){
         Option saveProduct = optionService.save(optionDTO);
 
@@ -54,7 +54,7 @@ public class OptionController {
     // 상품 안에 옵션이 있으니까
     // producId로 검색해서 상품 정보를 불러올수 있음
 
-    @PutMapping("/options/update")
+    @PutMapping("/options")
     public ResponseEntity<?> update(@RequestBody OptionRequest.updateDTO optionDTO){
         Option updateProduct = optionService.update(optionDTO);
 
@@ -63,7 +63,7 @@ public class OptionController {
     }
 
 
-    @DeleteMapping("/delete/{id}/options/{optionId}")
+    @DeleteMapping("/products/{id}/options/{optionId}")
     public ResponseEntity<?> delete(@PathVariable Long id, @PathVariable Long optionId){
         optionService.delete(id, optionId);
 

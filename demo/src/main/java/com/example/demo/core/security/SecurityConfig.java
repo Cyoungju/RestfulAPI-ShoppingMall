@@ -105,7 +105,7 @@ public class SecurityConfig {
 
         // 10. 인증, 권한 필터 설정
         http.authorizeRequests(
-                authorize -> authorize.antMatchers("/carts/**"/*, "/options/**", "/orders/**"*/).authenticated()
+                authorize -> authorize.antMatchers("/carts/**" , "/options/**", "/orders/**" ).authenticated()
                         .antMatchers("/admin/**")
                         .access("hasRole('ADMIN')")
                         .anyRequest().permitAll() //다른 주소는 모두 허용

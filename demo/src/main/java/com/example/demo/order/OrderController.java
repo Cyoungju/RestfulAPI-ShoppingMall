@@ -8,18 +8,19 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
+@RequestMapping("/orders")
 @RestController
 public class OrderController {
 
     private final OrderService orderservice;
 
-    @PostMapping("/orders/save")
+    @PostMapping  // 저장 Post - /orders
     public ResponseEntity<?> save(@AuthenticationPrincipal CustomUserDetails customUserDetails){
         OrderResponse.FindByDTO findByDTO = orderservice.save(customUserDetails.getUser());
         return ResponseEntity.ok(findByDTO); //인증 되는지 확인해야함,,
     }
 
-    @GetMapping("/orders/{id}")
+    @GetMapping("/{id}") // 하나의 목록 조회 Get - /orders/{id}
     public ResponseEntity<?> findById(@PathVariable Long id)//주문 결과 확인
     {
         OrderResponse.FindByDTO findByDTO = orderservice.findById(id);
@@ -27,7 +28,7 @@ public class OrderController {
         return ResponseEntity.ok(apiResult);
     }
 
-    @PostMapping("/orders/clear")
+    @DeleteMapping // 삭제 Delete - /orders
     public ResponseEntity<?> clear(){
         orderservice.clear();
 
@@ -35,5 +36,3 @@ public class OrderController {
         return ResponseEntity.ok(apiResult);
     }
 }
-
-//
