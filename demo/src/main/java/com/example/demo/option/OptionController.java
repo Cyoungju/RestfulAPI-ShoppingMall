@@ -54,9 +54,9 @@ public class OptionController {
     // 상품 안에 옵션이 있으니까
     // producId로 검색해서 상품 정보를 불러올수 있음
 
-    @PutMapping("/options")
-    public ResponseEntity<?> update(@RequestBody OptionRequest.updateDTO optionDTO){
-        Option updateProduct = optionService.update(optionDTO);
+    @PutMapping("/options/{id}")
+    public ResponseEntity<?> update(@RequestBody OptionRequest.updateDTO optionDTO, @PathVariable Long id){
+        Option updateProduct = optionService.update(optionDTO, id);
 
         ApiUtils.ApiResult<?> apiResult = ApiUtils.success(updateProduct);
         return ResponseEntity.ok(apiResult);

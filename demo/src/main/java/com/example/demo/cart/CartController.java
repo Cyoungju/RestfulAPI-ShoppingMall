@@ -24,7 +24,7 @@ public class CartController {
     @PostMapping
     public ResponseEntity<?> addCartList(
             @RequestBody @Valid List<CartRequest.SaveDTO> requestDTO,
-            @AuthenticationPrincipal CustomUserDetails customUserDetails, // 유저 정보확인
+            @AuthenticationPrincipal CustomUserDetails customUserDetails, // 현재 사용자의 인증정보를 받아옴
             Error error) { // 인증받은 애들만 메소드에 접근할 수 있음
         cartService.addCartList(requestDTO, customUserDetails.getUser());
 
@@ -32,13 +32,13 @@ public class CartController {
         return ResponseEntity.ok(apiResult);
     }
 
-    // ** 카트 전체 상품 확인
+
     @PutMapping
     public ResponseEntity<?> update(
             @RequestBody @Valid List<CartRequest.UpdateDTO> requestDTO,
             @AuthenticationPrincipal CustomUserDetails customUserDetails,
             Error error){ // 인증받은 애들만 메소드에 접근할 수 있음
-        CartResponse.UpdateDTO updateDTO = cartService.update(requestDTO, customUserDetails.getUser());
+        CartResponse.UpdateDTO updateDTO = cartService.update(requestDTO ,customUserDetails.getUser());
 
         ApiUtils.ApiResult<?> apiResult = ApiUtils.success(updateDTO);
         return ResponseEntity.ok(apiResult);

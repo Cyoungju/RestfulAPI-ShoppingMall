@@ -15,9 +15,7 @@ import java.util.List;
 public class ProductController {
     private final ProductService productService;
 
-    // RestController - 에러코드도 같이 적어줘야함? - 에러코드 필요함
-
-    @PostMapping("") // 저장 Post - "/products"
+    @PostMapping // 저장 Post - "/products"
     public ResponseEntity<?> save(@RequestBody ProductResponse.FindAllDTO product){
         Product save = productService.save(product);
 
@@ -26,7 +24,7 @@ public class ProductController {
     }
 
     // ** 전체 상품 확인
-    @GetMapping("") //조회 - Get - "/products"
+    @GetMapping //조회 - Get - "/products"
     public ResponseEntity<?> findAll(@RequestParam(defaultValue = "0") int page){
         List<ProductResponse.FindAllDTO> productResponses = productService.findAll(page);
         ApiUtils.ApiResult<?> apiResult = ApiUtils.success(productResponses);

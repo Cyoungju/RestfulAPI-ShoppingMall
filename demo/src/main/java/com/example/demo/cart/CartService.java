@@ -64,19 +64,20 @@ public class CartService {
     }
 
     @Transactional
-    public CartResponse.UpdateDTO update(List<CartRequest.UpdateDTO> requestDTO, User user) {
+    public CartResponse.UpdateDTO update(List<CartRequest.UpdateDTO> requestDTO , User user) {
+        // 현재 사용자의 ID를 기반으로 카트에서 상품을 조회
         List<Cart> cartList = cartRepository.findAllByUserId(user.getId());
 
-        // 전체 돌면서 카트의 pk만 받아올거임
+        // 카트에 있는 상품들의 ID를 리스트로 추출
         List<Long> cartIds = cartList.stream().map(cart -> cart.getId()).collect(Collectors.toList());
 
-
+        // 업데이트 요청으로부터 업데이트할 카트 상품들의 ID를 추출
         List<Long> requestIds = requestDTO.stream().map(dto -> dto.getCartId()).collect(Collectors.toList());
 
+        // 카트에 상품이 없을 경우 404 예외
         if(cartIds.size() == 0){ // 자료가 없음
             throw new Exception404("주문 가능한 상품이 없습니다.");
         }
-
 
         // 데이터가 없을떄 400에러
         if(requestIds.stream().distinct().count() != requestIds.size()){
@@ -85,14 +86,15 @@ public class CartService {
         }
 
         // 카트에 담긴 아이디 비교해봄
+        // 업데이트 요청된 각 상품의 ID가 카트에 있는지 확인하고, 없다면 400 예외
         for(Long requestId : requestIds){
             if(!cartIds.contains(requestId)){
                 throw  new Exception400("카트에 없는 상품은 주문할 수 없습니다." + requestId);
             }
         }
-
         // 모든 예외처리 완료
 
+        // 업데이트 요청에 따라 카트의 각 상품의 수량을 업데이트
         for(CartRequest.UpdateDTO updateDTO : requestDTO){
             for(Cart cart : cartList){
                 if(cart.getId() == updateDTO.getCartId()){
@@ -100,7 +102,6 @@ public class CartService {
                 }
             }
         }
-        
         // 위는 계속 요청
         
         // 이제 응답 받을 차례 - 객체 생성후 사용 가능
@@ -110,19 +111,23 @@ public class CartService {
 
     @Transactional
     public void deleteCartList(List<CartResponse.DeleteDTO> deleteDTO, User user) {
+        // 사용자의 id를 기반으로 카트에서 상품을 조회
         List<Cart> cartList = cartRepository.findAllByUserId(user.getId());
 
-        // 전체 돌면서 카트의 pk만 받아올거임
+        // 카트에 있는 상품들의 id를 리스트로 추출함
         List<Long> cartIds = cartList.stream().map(cart -> cart.getId()).collect(Collectors.toList());
 
-
+        // 삭제 요청으로부터 삭제할 카트 상품들의 id를 추출함
         List<Long> requestIds = deleteDTO.stream().map(dto -> dto.getCartId()).collect(Collectors.toList());
 
+
+        // 카트의 상품이 없을 경우
         if(cartIds.size() == 0){ // 자료가 없음
             throw new Exception404("카트에 상품이 없습니다.");
         }
 
         // 카트에 담긴 아이디 비교해봄
+        // 삭제 요청된 각 상품의 id가 카트에 있는지 확인 하고, 없다면 404 예외처리
         for(Long requestId : requestIds){
             if(!cartIds.contains(requestId)){
                 throw  new Exception400("카트에 없는 상품은 삭제 할 수 없습니다." + requestId);
@@ -130,6 +135,8 @@ public class CartService {
         }
 
         Long userId = user.getId();
+
+        // 각 삭제 요청에 대한 사용자의 카트에서 해당 상품을 삭제함
         for (CartResponse.DeleteDTO dto : deleteDTO) {
             Long cartId = dto.getCartId();
             cartRepository.deleteByUserIdAndId(userId, cartId);

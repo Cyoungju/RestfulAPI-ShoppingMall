@@ -1,6 +1,8 @@
 package com.example.demo.product;
 
+import com.example.demo.core.error.exception.Exception400;
 import com.example.demo.core.error.exception.Exception404;
+import com.example.demo.core.error.exception.Exception500;
 import com.example.demo.option.Option;
 import com.example.demo.option.OptionRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,16 +23,38 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final OptionRepository optionRepository;
 
+
+    // 상품저장
+    @Transactional
+    public Product save(ProductResponse.FindAllDTO product) {
+        try {
+            // DTO 를 엔티티로 변환해서 저장 후 변환
+            Product saveProduct = productRepository.save(product.toEntity());
+            return saveProduct;
+        }catch (Exception e) {
+            throw new Exception400("잘못된 요청으로 상품 등록 중 오류가 발생했습니다.");
+        }
+    }
+
+
+    // 페이징된 상품목록 조회
     public List<ProductResponse.FindAllDTO> findAll(int page) {
+
         Pageable pageable = PageRequest.of(page,3);
         Page<Product> productPage = productRepository.findAll(pageable);
 
+        if (productPage.isEmpty()) {
+            // 만약 페이지 내용이 비어 있다면 404 예외를 던집니다.
+            throw new Exception404("해당 페이지에 상품이 없습니다.");
+        }
+
+        // Product Entity - > DTO 변환 해서 리스트로 변환
         List<ProductResponse.FindAllDTO> productDTOS =
                 productPage.getContent().stream().map(ProductResponse.FindAllDTO::new)//람다식 - > 기본생성자 호출
                 .collect(Collectors.toList());
 
-
         return productDTOS;
+
     }
 
     //개별상품 검색
@@ -46,29 +70,36 @@ public class ProductService {
         return new ProductResponse.FindByIdDTO(product, optionList); // 생성자 반환
     }
 
+
+    // 상품 업데이트
+    @Transactional
+    public Product update(Long id, ProductResponse.FindByIdDTO productDTO) {
+        try {
+            // 상품 ID로 상품 검색, 없으면 예외 발생
+            Product productUpdate = productRepository.findById(id).orElseThrow( //예외 처리 바로하기
+                    () -> new Exception404("해당 상품을 찾을 수 없습니다. : " + id) // 상품이 없을 경우
+            );
+
+            productUpdate.updateFromDTO(productDTO);
+
+            return productRepository.save(productUpdate);
+
+        } catch (Exception e) {
+            throw new Exception400("잘못된 요청 형식으로 상품을 업데이트하는 중 오류가 발생했습니다.");
+        }
+    }
+
+
+
+    // 상품삭제
     @Transactional
     public void delete(Long id) {
+        // 상품 ID로 검색, 없으면 예외 발생
         Product product = productRepository.findById(id).orElseThrow( //예외 처리 바로하기
                 () -> new Exception404("해당 상품을 찾을 수 없습니다. : " + id) // 상품이 없을 경우
         );
         productRepository.delete(product);
     }
 
-    @Transactional
-    public Product save(ProductResponse.FindAllDTO product) {
-        Product saveProduct = productRepository.save(product.toEntity());
-        return saveProduct;
-    }
-
-    @Transactional
-    public Product update(Long id, ProductResponse.FindByIdDTO productDTO) {
-        Product productUpdate = productRepository.findById(id).orElseThrow( //예외 처리 바로하기
-                () -> new Exception404("해당 상품을 찾을 수 없습니다. : " + id) // 상품이 없을 경우
-        );
-
-        productUpdate.updateFromDTO(productDTO);
-
-        return productRepository.save(productUpdate);
-    }
 
 }
