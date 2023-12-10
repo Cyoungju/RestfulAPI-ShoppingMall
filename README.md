@@ -31,13 +31,15 @@ Restful API를 활용한 쇼핑몰 만들기<br>
 - 응답
   - 201 Created: 제품 등록 성공
   - 400 Bad Request: 잘못된 요청 형식
-<img src="./Image/">
+
+<img src="./Image/productSave.jpg">
 
 #### b. 제품 조회 (GET "/products")
 - 제품 목록 조회
 - 응답
   - 200 OK: 성공적으로 제품 목록을 반환
   - 404 Not Found: 해당하는 제품이 없을 경우
+
 
 #### c. 단일 제품 조회 (GET "/products/{id}")
 - {id}를 이용해서 단일 상품 조회
@@ -54,11 +56,17 @@ Restful API를 활용한 쇼핑몰 만들기<br>
   - 404 Not Found: 해당 제품이 없을 경우
   - 400 Bad Request: 잘못된 요청 형식
 
+<img src="./Image/productUpdate.jpg">
+
+
 #### d. 제품 삭제 (DELETE "/products/{id}")
 - {id}를 이용해 특정 제품 삭제
 - 응답
   - 204 No Content: 성공적으로 제품 삭제
   - 404 Not Found: 해당 제품이 없을 경우
+
+<img src="./Image/productDelete.jpg">
+
 
 
 ### 2. 제품 옵션 관리
@@ -104,8 +112,12 @@ Restful API를 활용한 쇼핑몰 만들기<br>
 ### 사용자 관리
 - JWT 인증 : 사용자는 JWT 토큰을 헤더에 포함하여 요청해야 함
 
-#### 1. 회원가입
-#### 2. 로그인
+#### 1. 회원가입 (/join)
+<img src="./Image/join.jpg">
+
+#### 2. 로그인 (/login)
+<img src="./Image/login.jpg">
+
 
 ## 버전
 
