@@ -1,8 +1,8 @@
 
 # shoppingMall - Restful API
 Restful API를 활용한 쇼핑몰 만들기<br>
-<a href="">쇼핑몰 ERD</a>
-<img src="./board/src/main/resources/static/image/board6.png" style="border:1px solid #eeeeee" alt="메인">
+<a href="https://github.com/Cyoungju/RestfulAPI-ShoppingMall/blob/main/Image/erd.png" target="_blank">쇼핑몰 ERD</a>
+
 
 ## 개발환경
 - IDE: IntelliJ IDEA Community
@@ -31,6 +31,7 @@ Restful API를 활용한 쇼핑몰 만들기<br>
 - 응답
   - 201 Created: 제품 등록 성공
   - 400 Bad Request: 잘못된 요청 형식
+<img src="./Image/">
 
 #### b. 제품 조회 (GET "/products")
 - 제품 목록 조회
