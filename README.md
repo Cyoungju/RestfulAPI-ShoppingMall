@@ -146,6 +146,10 @@ Restful API를 활용한 쇼핑몰 만들기<br>
 <img src="./Image/login.jpg">
 
 
+## 향후 업데이트 예정 기능
+### 1. kakao Rest Api 로그인 기능 추가
+
+
 ## 버전
 
 ### v2.3.3 (2023.12.10)
