@@ -31,6 +31,10 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: create
+    properties:
+      hibernate:
+        hbm2ddl:
+          import_files: classpath:db/data.sql
 
   h2:
     console:

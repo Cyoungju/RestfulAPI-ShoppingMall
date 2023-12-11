@@ -98,12 +98,15 @@ public class CartService {
         for(CartRequest.UpdateDTO updateDTO : requestDTO){
             for(Cart cart : cartList){
                 if(cart.getId() == updateDTO.getCartId()){
-                    cart.update(updateDTO.getQuantity(), cart.getPrice() * cart.getQuantity());
+                    cart.update(updateDTO.getQuantity(), cart.getOption().getPrice() * updateDTO.getQuantity());
                 }
             }
         }
+
         // 위는 계속 요청
-        
+
+
+
         // 이제 응답 받을 차례 - 객체 생성후 사용 가능
         return new CartResponse.UpdateDTO(cartList);
     }
