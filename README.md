@@ -1,5 +1,5 @@
 
-# shoppingMall - Restful API
+# 🛍shoppingMall - Restful API
 Restful API를 활용한 쇼핑몰 만들기<br>
 <a href="https://github.com/Cyoungju/RestfulAPI-ShoppingMall/blob/main/Image/erd.png" target="_blank">쇼핑몰 ERD</a>
 
