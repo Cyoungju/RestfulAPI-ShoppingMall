@@ -24,8 +24,8 @@ public class NicepayController {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     // 나이스페이 - 개발정보에 클라이언트 키, 시크릿 키
-    private final String CLIENT_ID = "S2_b59d6985a802454ca54f75df2013157b";
-    private final String SECRET_KEY = "2020efdb80ae42078ebb412a7b630121";
+    private final String CLIENT_ID = "CLIENT_ID";
+    private final String SECRET_KEY = "SECRET_KEY";
 
     @RequestMapping("/")
     public String indexDemo(Model model){

@@ -3,9 +3,8 @@ package com.example.demo.cart;
 import com.example.demo.option.Option;
 import com.example.demo.user.User;
 import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
+
 public class CartRequest {
     @Data
     public static class SaveDTO { // 요청
@@ -13,8 +12,6 @@ public class CartRequest {
         private Long quantity;
 
         public Cart toEntity(Option option, User user){
-            log.debug("Creating Cart entity - Option: {}, User: {}", option, user);
-
             return Cart.builder()
                     .option(option)
                     .user(user)
